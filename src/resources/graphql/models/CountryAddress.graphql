@@ -1,0 +1,34 @@
+type CountryAddress {
+	id: ID
+	country_code: String
+	country: String
+	area1: String
+	area2: String
+	area3: String
+	area4: String
+	area5: String
+	group: String
+	latitude: Float
+	longitude: Float
+}
+
+type GroupAddress{
+	country_code: String
+	country: String
+	province: String
+	commune: String
+	zone: String
+	colline: String
+	locality: String
+	group: String
+	latitude: Float
+	longitude: Float
+    address_id: ID
+	accessible_group_id: ID
+	group_name: String
+	published: Boolean
+	created_at: String
+	updated_at: String
+}
+
+

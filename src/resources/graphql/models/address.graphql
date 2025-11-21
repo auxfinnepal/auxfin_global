@@ -1,0 +1,143 @@
+type AddressLabel {
+	id: ID
+	country_code: String
+	country: String
+	area1: String
+	area2: String
+	area3: String
+	area4: String
+	area5: String
+	group: String
+}
+type Address {
+	id: ID
+	address_id: ID
+	address_type: String
+	address_path: String
+	detail: CountryAddress @hasOne
+	first_path: ID
+	last_path: ID
+	model_id: ID
+	userCount: ID @method
+	userGenderCount: GenderCount @method
+}
+
+type GenderCount {
+	male_count: ID
+	female_count: ID
+}
+type AddressHierarchy {
+    id: ID
+    country_code:String
+    name: String
+    parent_id: ID
+    address_level: String
+}
+
+input CountryAddressInput {
+	country_code: String
+	area1: String
+	area2: String
+	area3: String
+	area4: String
+	area5: String
+	group: String
+}
+
+extend type Query {
+	getAddressLabel(byCountry: String @scope): AddressLabel @find
+    addresses(
+        country_code: String! @where(operator: "=")
+        area1: String @where(operator: "=")
+        area2: String @where(operator: "=")
+        area3: String @where(operator: "=")
+        area4: String @where(operator: "=")
+        area5: String @where(operator: "=")
+        group: String @where(operator: "=")
+        orderBy: _ @orderBy(columns: ["country_code", "area1", "area2", "area3", "area4", "area5", "group"], direction: "ASC")
+    ): [CountryAddress] @all
+    getAddressById(id: ID! @eq): CountryAddress @find
+    getCountryAddress(
+        byMain: Boolean @scope
+        byCountry: String @scope
+        byArea1: String @scope
+        byArea2: String @scope
+        byArea3: String @scope
+        byArea4: String @scope
+        byArea5: String @scope
+        byCountryAddress: CountryAddressInput @scope
+    ): [CountryAddress] @all
+
+    getAddress(
+        country_code: String @eq
+        area1: String @eq
+        area2: String @eq
+        area3: String @eq
+        area4: String @eq
+        area5: String @eq
+        group: String @eq
+    ): CountryAddress @first
+    getAddressHierarchy(
+        country: String!
+        area1: String
+        area2: String
+        area3: String
+        area4: String
+        area5: String
+        group: String
+    ): [AddressHierarchy] @field(resolver: "Auxfin\\Global\\GraphQL\\Queries\\Address@getAddressHierarchy")
+}
+
+
+input AddressHierarchyInputs {
+	address_level: String
+	parent_id: ID
+	name: String
+}
+
+input AddressInput {
+	country_code: String
+	country: String
+	area1: String
+	area2: String
+	area3: String
+	area4: String
+	area5: String
+	group: String
+	latitude: Float
+	longitude: Float
+	label_key: String
+	label_value: String
+	prev_value: String
+	edited_value: String
+}
+
+type Supplier{
+    sup_id: ID!
+    sup_name: String!
+    user_password: String
+    user_email: String
+    user_level: Int!
+    passwordenc: String!
+    umva_org_id: ID!
+    user_level_id: ID!
+    secret_question: String
+    secret_answer: String
+    gender: String
+    otp: Int
+    user_info:UserInfo
+}
+type UserInfo{
+    userid: ID!
+    first_name: String
+    last_name: String
+    gender: String
+    default_account_id: ID
+    head_of_family: Boolean
+    longitude: Float
+    latitude: Float
+    mobile: String
+    birthday: Int
+    umva_cardid: String
+    addresses: [Address]
+}

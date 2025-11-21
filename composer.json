@@ -1,0 +1,21 @@
+{
+    "name": "auxfin/global",
+    "description": "UMVA Global package From AUXFIN",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "tomatophp/console-helpers": "^1.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Auxfin\\Global\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sabin Maharjan",
+            "email": "sabin.maharjan@auxfin.com"
+        }
+    ]
+}

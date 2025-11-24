@@ -4,7 +4,8 @@
     "type": "library",
     "require": {
         "php": "^8.1",
-        "tomatophp/console-helpers": "^1.1"
+        "tomatophp/console-helpers": "^1.1",
+        "lighthouse-php/lighthouse": "^5.37"
     },
     "license": "MIT",
     "autoload": {

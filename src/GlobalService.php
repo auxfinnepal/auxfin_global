@@ -315,7 +315,7 @@ farmer {
 
     public function getAddressById(string $address_id)
     {
-        $token = SsoToken::first()->access_token ?? null;
+        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -357,7 +357,7 @@ farmer {
 
     public function getUser(array $request)
     {
-        $token = SsoToken::first()->access_token ?? null;
+        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();

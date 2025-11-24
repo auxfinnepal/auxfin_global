@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.1",
         "tomatophp/console-helpers": "^1.1",
-        "lighthouse-php/lighthouse": "*"
+        "nuwave/lighthouse": "*"
     },
     "license": "MIT",
     "autoload": {

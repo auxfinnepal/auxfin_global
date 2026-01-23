@@ -594,4 +594,144 @@ farmer {
         return "password_changed_successfully";
     }
 
+	 public function findUsers(array $request)
+    {
+        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphQLBody = [
+            "query" => 'query findUsers( 
+			$findByUmvaIdlike: String
+  $joinAccount: Boolean
+  $byBank: ID
+  $byUban: String
+  $byAccountId: ID
+  $joinInfo: Boolean
+  $byFirstName: String
+  $byLastName: String
+  $byIdCard: String
+  $byClientType: String
+  $byAddress: ID
+  $byRole: ID
+  $byUmvaCafe: ID
+  $selectSupplierOnly: Boolean
+  $byUserStatusType: ID
+  $byBanks: [ID]
+  $byAddressIds: [ID]
+  $byAccessibleGroup: AccessibleInput
+  $selectHeadOfFamilyOnly: Boolean
+  $byAccessibleGroupId: ID
+  $first: Int!
+  $page: Int
+) {
+  findUsers(
+   findByUmvaIdlike: $findByUmvaIdlike
+    joinAccount: $joinAccount
+    byBank: $byBank
+    byUban: $byUban
+    byAccountId: $byAccountId
+    joinInfo: $joinInfo
+    byFirstName: $byFirstName
+    byLastName: $byLastName
+    byIdCard: $byIdCard
+    byClientType: $byClientType
+    byAddress: $byAddress
+    byRole: $byRole
+    byUmvaCafe: $byUmvaCafe
+    selectSupplierOnly: $selectSupplierOnly
+    byUserStatusType: $byUserStatusType
+    byBanks: $byBanks
+    byAddressIds: $byAddressIds
+    byAccessibleGroup: $byAccessibleGroup
+    selectHeadOfFamilyOnly: $selectHeadOfFamilyOnly
+    byAccessibleGroupId: $byAccessibleGroupId
+    first: $first
+    page: $page
+  ) {
+   paginatorInfo {
+      count
+      currentPage
+      firstItem
+      hasMorePages
+      lastItem
+      lastPage
+      perPage
+      total
+    }
+    data {
+                    sup_id
+                    sup_name
+                    passwordenc
+                    user_info {
+                        first_name
+                        last_name
+                        gender
+                        address_id
+                        umva_cardid                           
+                        addresses {
+                            address_id
+                            detail {
+                                id
+                                country_code
+                                country
+                                area1
+                                area2
+                                area3
+                                area4
+                                area5
+                                group
+                                latitude
+                                longitude
+                            }
+                        }
+                    }
+                    accounts {
+                        account_id
+                        safes {
+                            account_id
+                            safeid
+                            safetype
+                            currentbalance
+                            currency
+                            safe_type {
+                              name
+                            }
+                        }
+                        bank_account {
+                            account_id
+                            bankaccount
+                            bank {
+                              bank_id
+                              bank_code
+                            }
+                        }
+                        value_type {
+                            id 
+                            code
+                        }
+                    }
+                }
+    
+}
+}
+',
+            "operationName" => "findUsers",
+            "variables" => $request
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($graphQLBody)
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
+    }
+
 }

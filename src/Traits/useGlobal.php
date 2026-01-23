@@ -58,4 +58,8 @@ trait useGlobal
     {
         return $this->globalService->changePassword($request);
     }
+    public function findUsers(array $request){
+        return $this->globalService->findUsers($request);
+    }
+    
 }

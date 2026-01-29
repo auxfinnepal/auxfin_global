@@ -734,4 +734,109 @@ farmer {
         return $bodyData;
     }
 
+    public function getAddressLabel(array $request)
+    {
+        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphQLBody = [
+            "query" => 'query getAddressLabel( 
+		$byCountry: String
+) {
+  getAddressLabel(
+   byCountry: $byCountry
+  ) {
+      id
+    country_code
+    country
+    area1
+    area2
+    area3
+    area4
+    area5
+    group
+    
+}
+}
+',
+            "operationName" => "getAddressLabel",
+            "variables" => $request
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($graphQLBody)
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
+    }
+    public function getCountryAddress(array $request)
+    {
+        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphQLBody = [
+            "query" => 'query getCountryAddress( 
+			$byMain: Boolean
+  $byCountry: String
+  $byArea1: String
+  $byArea2: String
+  $byArea3: String
+  $byArea4: String
+  $byArea5: String
+  $byCountryAddress: CountryAddressInput
+) {
+  getCountryAddress(
+       byMain: $byMain
+    byCountry: $byCountry
+    byArea1: $byArea1
+    byArea2: $byArea2
+    byArea3: $byArea3
+    byArea4: $byArea4
+    byArea5: $byArea5
+    byCountryAddress: $byCountryAddress
+
+  ) {
+   
+   d
+    country_code
+    country
+    area1
+    area2
+    area3
+    area4
+    area5
+    group
+    latitude
+    longitude
+    
+}
+}
+',
+            "operationName" => "getCountryAddress",
+            "variables" => $request
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($graphQLBody)
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
+    }
+
 }

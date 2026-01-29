@@ -61,5 +61,13 @@ trait useGlobal
     public function findUsers(array $request){
         return $this->globalService->findUsers($request);
     }
+
+    public function getAddressesLabel(array $request){
+        return $this->globalService->getAddressLabel($request);
+    }
+
+    public function getCountryAddress(array $request){
+        return $this->globalService->getCountryAddress($request);
+    }
     
 }

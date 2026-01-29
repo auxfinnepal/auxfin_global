@@ -201,7 +201,7 @@ class GlobalService
 
     public function registerGlobal(array $request)
     {
-        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -315,7 +315,7 @@ farmer {
 
     public function getAddressById(string $address_id)
     {
-        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -357,7 +357,7 @@ farmer {
 
     public function getUser(array $request)
     {
-        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -558,18 +558,18 @@ farmer {
                 changePassword(input:$input)
             }',
             "operationName" => "changePassword",
-            "variables" => ["input"=>$request]
+            "variables" => ["input" => $request]
         ];
 
 
         $response = $this
             ->client->request('POST', $this->apiUrl . '/graphql', [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $token
-            ],
-            'body' => json_encode($graphQLBody)
-        ]);
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token
+                ],
+                'body' => json_encode($graphQLBody)
+            ]);
 
         $bodyData = json_decode($response->getBody()->getContents());
         if (property_exists($bodyData, 'errors')) {
@@ -594,9 +594,9 @@ farmer {
         return "password_changed_successfully";
     }
 
-	 public function findUsers(array $request)
+    public function findUsers(array $request)
     {
-        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -736,7 +736,7 @@ farmer {
 
     public function getAddressLabel(array $request)
     {
-        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -779,7 +779,7 @@ farmer {
     }
     public function getCountryAddress(array $request)
     {
-        $token = SsoToken::where('product_name','Global')->first()->access_token ?? null;
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
@@ -808,7 +808,7 @@ farmer {
 
   ) {
    
-   d
+   id
     country_code
     country
     area1
@@ -838,5 +838,4 @@ farmer {
         $bodyData = json_decode($response->getBody()->getContents());
         return $bodyData;
     }
-
 }

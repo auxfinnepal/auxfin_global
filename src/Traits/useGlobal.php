@@ -69,5 +69,9 @@ trait useGlobal
     public function getCountryAddress(array $request){
         return $this->globalService->getCountryAddress($request);
     }
+
+    public function getAddress(array $request){
+        return $this->globalService->getAddress($request);
+    }
     
 }

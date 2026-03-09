@@ -662,60 +662,79 @@ class GlobalService
                 total
                 }
                 data {
-                                sup_id
-                                sup_name
-                                passwordenc
-                                user_info {
-                                    first_name
-                                    last_name
-                                    gender
-                                    address_id
-                                    umva_cardid                           
-                                    addresses {
-                                        address_id
-                                        detail {
-                                            id
-                                            country_code
-                                            country
-                                            area1
-                                            area2
-                                            area3
-                                            area4
-                                            area5
-                                            group
-                                            latitude
-                                            longitude
-                                        }
-                                    }
-                                }
-                                accounts {
-                                    account_id
-                                    safes {
-                                        account_id
-                                        safeid
-                                        safetype
-                                        currentbalance
-                                        currency
-                                        safe_type {
-                                        name
-                                        }
-                                    }
-                                    bank_account {
-                                        account_id
-                                        bankaccount
-                                        bank {
-                                        bank_id
-                                        bank_code
-                                        }
-                                    }
-                                    value_type {
-                                        id 
-                                        code
-                                    }
+                        sup_id
+                        sup_name
+                        passwordenc
+                        user_info {
+                            first_name
+                            last_name
+                            gender
+                            address_id
+                            umva_cardid
+                            addresses {
+                                address_id
+                                detail {
+                                    id
+                                    country_code
+                                    country
+                                    area1
+                                    area2
+                                    area3
+                                    area4
+                                    area5
+                                    group
+                                    latitude
+                                    longitude
                                 }
                             }
-                
-            }
+                        }
+                      farmer_fields {
+					farmer_field
+					field_size
+					owner
+					land
+					unit_id
+					id
+					addresses {
+						detail {
+							country_code
+							country
+							area1
+							area2
+							area3
+							area4
+							area5
+							group
+						}
+					}
+				}
+
+                        accounts {
+                            account_id
+                            safes {
+                                account_id
+                                safeid
+                                safetype
+                                currentbalance
+                                currency
+                                safe_type {
+                                    name
+                                }
+                            }
+                            bank_account {
+                                account_id
+                                bankaccount
+                                bank {
+                                    bank_id
+                                    bank_code
+                                }
+                            }
+                            value_type {
+                                id
+                                code
+                            }
+                        }
+                    }
             }
             ',
             "operationName" => "findUsers",

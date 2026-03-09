@@ -699,6 +699,18 @@ class GlobalService
                             status
                             created_at
                             updated_at
+                            addresses {
+						detail {
+							country_code
+							country
+							area1
+							area2
+							area3
+							area4
+							area5
+							group
+						}
+					}
                         }
                         accounts {
                             account_id

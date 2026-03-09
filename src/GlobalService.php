@@ -598,70 +598,68 @@ class GlobalService
     {
         $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
-        if (!$token) {
+        if (! $token) {
             $token = $this->getToken();
         }
 
-        $graphQLBody = [
-            "query" => 'query findUsers( 
-			$findByUmvaIdlike: String
-            $joinAccount: Boolean
-            $byBank: ID
-            $byUban: String
-            $byAccountId: ID
-            $joinInfo: Boolean
-            $byFirstName: String
-            $byLastName: String
-            $byIdCard: String
-            $byClientType: String
-            $byAddress: ID
-            $byRole: ID
-            $byUmvaCafe: ID
-            $selectSupplierOnly: Boolean
-            $byUserStatusType: ID
-            $byBanks: [ID]
-            $byAddressIds: [ID]
-            $byAccessibleGroup: AccessibleInput
-            $selectHeadOfFamilyOnly: Boolean
-            $byAccessibleGroupId: ID
-            $first: Int!
-            $page: Int
+        $query = '
+            query findUsers(
+                $findByUmvaIdlike: String
+                $joinAccount: Boolean
+                $byBank: ID
+                $byUban: String
+                $byAccountId: ID
+                $joinInfo: Boolean
+                $byFirstName: String
+                $byLastName: String
+                $byIdCard: String
+                $byClientType: String
+                $byAddress: ID
+                $byRole: ID
+                $byUmvaCafe: ID
+                $selectSupplierOnly: Boolean
+                $byUserStatusType: ID
+                $byBanks: [ID]
+                $byAddressIds: [ID]
+                $selectHeadOfFamilyOnly: Boolean
+                $byAccessibleGroupId: ID
+                $first: Int!
+                $page: Int
             ) {
-            findUsers(
-            findByUmvaIdlike: $findByUmvaIdlike
-                joinAccount: $joinAccount
-                byBank: $byBank
-                byUban: $byUban
-                byAccountId: $byAccountId
-                joinInfo: $joinInfo
-                byFirstName: $byFirstName
-                byLastName: $byLastName
-                byIdCard: $byIdCard
-                byClientType: $byClientType
-                byAddress: $byAddress
-                byRole: $byRole
-                byUmvaCafe: $byUmvaCafe
-                selectSupplierOnly: $selectSupplierOnly
-                byUserStatusType: $byUserStatusType
-                byBanks: $byBanks
-                byAddressIds: $byAddressIds
-                byAccessibleGroup: $byAccessibleGroup
-                selectHeadOfFamilyOnly: $selectHeadOfFamilyOnly
-                byAccessibleGroupId: $byAccessibleGroupId
-                first: $first
-                page: $page
-            ) {
-            paginatorInfo {
-                count
-                currentPage
-                firstItem
-                hasMorePages
-                lastItem
-                lastPage
-                perPage
-                total
-                }
-                data {
+                findUsers(
+                    findByUmvaIdlike: $findByUmvaIdlike
+                    joinAccount: $joinAccount
+                    byBank: $byBank
+                    byUban: $byUban
+                    byAccountId: $byAccountId
+                    joinInfo: $joinInfo
+                    byFirstName: $byFirstName
+                    byLastName: $byLastName
+                    byIdCard: $byIdCard
+                    byClientType: $byClientType
+                    byAddress: $byAddress
+                    byRole: $byRole
+                    byUmvaCafe: $byUmvaCafe
+                    selectSupplierOnly: $selectSupplierOnly
+                    byUserStatusType: $byUserStatusType
+                    byBanks: $byBanks
+                    byAddressIds: $byAddressIds
+                    selectHeadOfFamilyOnly: $selectHeadOfFamilyOnly
+                    byAccessibleGroupId: $byAccessibleGroupId
+                    first: $first
+                    page: $page
+                ) {
+                    paginatorInfo {
+                        count
+                        currentPage
+                        firstItem
+                        hasMorePages
+                        lastItem
+                        lastPage
+                        perPage
+                        total
+                    }
+                    data {
                         sup_id
                         sup_name
                         passwordenc
@@ -688,27 +686,20 @@ class GlobalService
                                 }
                             }
                         }
-                      farmer_fields {
-					farmer_field
-					field_size
-					owner
-					land
-					unit_id
-					id
-					addresses {
-						detail {
-							country_code
-							country
-							area1
-							area2
-							area3
-							area4
-							area5
-							group
-						}
-					}
-				}
-
+                        farmer_fields {
+                            id
+                            user_id
+                            farmer_field
+                            field_size
+                            owner
+                            land
+                            boundaries
+                            field_type
+                            unit_id
+                            status
+                            created_at
+                            updated_at
+                        }
                         accounts {
                             account_id
                             safes {
@@ -735,22 +726,28 @@ class GlobalService
                             }
                         }
                     }
+                }
             }
-            ',
-            "operationName" => "findUsers",
-            "variables" => $request
+        ';
+
+        $graphQLBody = [
+            'query' => $query,
+            'operationName' => 'findUsers',
+            'variables' => $request,
         ];
 
-        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+        $apiUrl = config('global.api') ?: env('GLOBAL_API_URL');
+
+        $client = new Client;
+        $response = $client->request('POST', $apiUrl.'/graphql', [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $token
+                'Authorization' => 'Bearer '.$token,
             ],
-            'body' => json_encode($graphQLBody)
+            'body' => json_encode($graphQLBody),
         ]);
 
-        $bodyData = json_decode($response->getBody()->getContents());
-        return $bodyData;
+        return json_decode($response->getBody()->getContents());
     }
 
     public function getAddressLabel(array $request)

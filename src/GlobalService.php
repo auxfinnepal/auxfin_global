@@ -385,6 +385,12 @@ class GlobalService
                 secret_answer
                 gender
                 otp
+                images {
+					path
+					image_type
+					image_url
+				}
+
                 user_info {
                 userid
                 first_name
@@ -401,6 +407,44 @@ class GlobalService
                     address_type
                 }
                 }
+                	farmer {
+				id
+				farmer_nr
+				contract_to_factory
+				kbs_reg_nr
+				contract_nr
+			}
+
+                        farmer_fields {
+                            id
+                            user_id
+                            farmer_field
+                            field_size
+                            owner
+                            land
+                            boundaries
+                            field_type
+                            unit_id
+                            unit{
+                            id
+                            name
+                            }
+                            status
+                            created_at
+                            updated_at
+                            addresses {
+						detail {
+							country_code
+							country
+							area1
+							area2
+							area3
+							area4
+							area5
+							group
+						}
+					}
+                        }
             }
             }
             ',
@@ -448,6 +492,11 @@ class GlobalService
                     secret_answer
                     gender
                     otp
+                    images {
+					path
+					image_type
+					image_url
+				}
                     user_info {
                     userid
                     first_name
@@ -464,6 +513,44 @@ class GlobalService
                         address_type
                     }
                     }
+                    	farmer {
+				id
+				farmer_nr
+				contract_to_factory
+				kbs_reg_nr
+				contract_nr
+			}
+
+                        farmer_fields {
+                            id
+                            user_id
+                            farmer_field
+                            field_size
+                            owner
+                            land
+                            boundaries
+                            field_type
+                            unit_id
+                            unit{
+                            id
+                            name
+                            }
+                            status
+                            created_at
+                            updated_at
+                            addresses {
+						detail {
+							country_code
+							country
+							area1
+							area2
+							area3
+							area4
+							area5
+							group
+						}
+					}
+                        }
                 }
                 }
                 ',
@@ -663,6 +750,11 @@ class GlobalService
                         sup_id
                         sup_name
                         passwordenc
+                        images {
+					path
+					image_type
+					image_url
+				}
                         user_info {
                             first_name
                             last_name
@@ -686,6 +778,15 @@ class GlobalService
                                 }
                             }
                         }
+
+			farmer {
+				id
+				farmer_nr
+				contract_to_factory
+				kbs_reg_nr
+				contract_nr
+			}
+
                         farmer_fields {
                             id
                             user_id
@@ -696,6 +797,10 @@ class GlobalService
                             boundaries
                             field_type
                             unit_id
+                            unit{
+                            id
+                            name
+                            }
                             status
                             created_at
                             updated_at
@@ -751,10 +856,10 @@ class GlobalService
         $apiUrl = config('global.api') ?: env('GLOBAL_API_URL');
 
         $client = new Client;
-        $response = $client->request('POST', $apiUrl.'/graphql', [
+        $response = $client->request('POST', $apiUrl . '/graphql', [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => 'Bearer ' . $token,
             ],
             'body' => json_encode($graphQLBody),
         ]);

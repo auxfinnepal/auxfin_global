@@ -402,10 +402,24 @@ class GlobalService
                 latitude
                 mobile
                 birthday
-                addresses{
-                    address_id
-                    address_type
-                }
+                                            umva_cardid
+
+               addresses {
+                                address_id
+                                detail {
+                                    id
+                                    country_code
+                                    country
+                                    area1
+                                    area2
+                                    area3
+                                    area4
+                                    area5
+                                    group
+                                    latitude
+                                    longitude
+                                }
+                            }
                 }
                 	farmer {
 				id

@@ -663,6 +663,11 @@ class GlobalService
                         sup_id
                         sup_name
                         passwordenc
+                        images @include(if: $withImage) {
+				image_type
+				path
+				image_url
+			}
                         user_info {
                             first_name
                             last_name
@@ -686,6 +691,15 @@ class GlobalService
                                 }
                             }
                         }
+
+			farmer {
+				id
+				farmer_nr
+				contract_to_factory
+				kbs_reg_nr
+				contract_nr
+			}
+
                         farmer_fields {
                             id
                             user_id
@@ -696,6 +710,10 @@ class GlobalService
                             boundaries
                             field_type
                             unit_id
+                            unit{
+                            id
+                            name
+                            }
                             status
                             created_at
                             updated_at
@@ -751,10 +769,301 @@ class GlobalService
         $apiUrl = config('global.api') ?: env('GLOBAL_API_URL');
 
         $client = new Client;
-        $response = $client->request('POST', $apiUrl.'/graphql', [
+        $response = $client->request('POST', $apiUrl . '/graphql', [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => 'Bearer ' . $token,
+            ],
+            'body' => json_encode($graphQLBody),
+        ]);
+
+        return json_decode($response->getBody()->getContents());
+    }
+
+    public function findUserByUmvaId(array $request)
+    {
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
+
+        if (! $token) {
+            $token = $this->getToken();
+        }
+
+        $query = '
+           query getUserByUMVAId(
+		$id: String
+		$withPermissions: Boolean = false
+		$role: ID
+		$withHierarchy: Boolean = false
+		$withGlAccount: Boolean = false
+		$withImage: Boolean = false
+	) {
+		findUserByUmvaId(findByUmvaId: $id) {
+			sup_id
+			sup_name
+			images @include(if: $withImage) {
+				image_type
+				path
+				image_url
+			}
+			roles @skip(if: $withPermissions) {
+				id
+				name
+			}
+			role(role: $role) @include(if: $withHierarchy) {
+				name
+			}
+
+			child @include(if: $withHierarchy) {
+				user_id
+				has_child
+				role {
+					name
+				}
+				user {
+					sup_name
+				}
+			}
+			company @skip(if: $withPermissions) {
+				company
+			}
+			permissions @include(if: $withPermissions) @skip(if: $withHierarchy) {
+				id
+				name
+				module
+			}
+			user_info @skip(if: $withPermissions) {
+				creditworthiness
+				userid
+				first_name
+				last_name
+				gender
+				address_country
+				address_state
+				address_zone
+				address_zone1
+				address_city
+				address_locality
+				user_group
+				address_id
+				umva_photo_jpg_pending
+				umva_profession
+				birthday
+				accessible_groups
+				role_names
+				website
+				phone
+				mobile
+				umva_cafe
+				personal_info
+				umva_cardid
+				marital_status_id
+				maritalStatus {
+					id
+					name
+				}
+				addresses {
+					detail {
+						country_code
+						country
+						area1
+						area2
+						area3
+						area4
+						area5
+						group
+					}
+				}
+			}
+                farmer {
+				id
+				farmer_nr
+				contract_to_factory
+				kbs_reg_nr
+				contract_nr
+			}
+
+                        farmer_fields {
+                            id
+                            user_id
+                            farmer_field
+                            field_size
+                            owner
+                            land
+                            boundaries
+                            field_type
+                            unit_id
+                            unit{
+                            id
+                            name
+                            }
+                            status
+                            created_at
+                            updated_at
+                            addresses {
+						detail {
+							country_code
+							country
+							area1
+							area2
+							area3
+							area4
+							area5
+							group
+						}
+					}
+                        }
+			accounts @skip(if: $withPermissions) {
+				businessCenter {
+					Logistic_center {
+						id
+						name
+					}
+				}
+				value_type_id
+				account_id
+				is_default
+				values {
+					decimal_fraction
+				}
+				user_account_status {
+					user_status_type {
+						status
+					}
+				}
+				bank_account {
+					bank_id
+					bankaccount
+					bank {
+						bank_name
+						bank_code
+						theme
+						images {
+							path
+						}
+					}
+					value_type {
+						code
+					}
+				}
+				safes {
+					currency
+					currentbalance
+					account_id
+					issubsafe
+					safe_type {
+						safetype_id
+						name
+					}
+					loan_contract {
+						bank_code
+						id
+						loan_product_name
+						status
+						requested_loan_start_date
+						balance
+						requested_loan_amount
+						supervisor_account_id
+						internal_note
+						images {
+							id
+							path
+						}
+					}
+					saving_contract {
+						bank_id
+						saving_contract_id
+						contract_id
+						contract_period
+						saving_start_date
+						saving_end_date
+						status
+						previous_current_balance
+						previous_saving_balance
+						internal_note
+						interest_rate
+						messenger_umva_id
+						number_of_installments
+						interest_calculation
+						interest_calculation_in
+						saving_product {
+							name
+						}
+					}
+				}
+
+				pdbEntries {
+					valid_until
+				}
+				account_status {
+					valid_until
+					status
+				}
+			}
+
+			default_account @skip(if: $withPermissions) {
+				businessCenter {
+					Logistic_center {
+						id
+						name
+					}
+				}
+				value_type_id
+				account_id
+				values {
+					decimal_fraction
+				}
+				bank_account {
+					bank_id
+					bankaccount
+					bank {
+						bank_name
+						bank_code
+						theme
+						images {
+							path
+						}
+					}
+
+					value_type {
+						code
+					}
+				}
+				safes {
+					safeid
+					currency
+					currentbalance
+					account_id
+					safe_type {
+						safetype_id
+						name
+					}
+				}
+			}
+			gl_account @include(if: $withGlAccount) {
+				id
+				account_number
+				gl_type_id
+				description
+				gl_group_id
+				gl_chart_of_account_id
+			}
+		}
+	}
+        ';
+
+        $graphQLBody = [
+            'query' => $query,
+            'operationName' => 'findUsers',
+            'variables' => $request,
+        ];
+
+        $apiUrl = config('global.api') ?: env('GLOBAL_API_URL');
+
+        $client = new Client;
+        $response = $client->request('POST', $apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
             ],
             'body' => json_encode($graphQLBody),
         ]);

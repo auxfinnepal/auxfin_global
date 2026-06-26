@@ -78,8 +78,8 @@ trait useGlobal
         return $this->globalService->getAddress($request);
     }
 
-    public function getAddresses(array $request)
+    public function getWholeAddresses(array $request)
     {
-        return $this->globalService->getWholeAddresses($request);
+        return $this->globalService->getWholeAddress($request);
     }
 }

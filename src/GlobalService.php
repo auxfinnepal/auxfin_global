@@ -1046,13 +1046,14 @@ class GlobalService
         return $bodyData;
     }
 
-    public function getWholeAddress(array $request)
+    public function getAllAddresses(array $request)
     {
         $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
         if (!$token) {
             $token = $this->getToken();
         }
+
         $graphqlQuery = 'query addresses(
             $country_code: String!
             $area1: String
@@ -1085,7 +1086,6 @@ class GlobalService
             }
         }';
 
-
         $graphQLBody = [
             "query" => $graphqlQuery,
             "variables" => $request,
@@ -1103,4 +1103,5 @@ class GlobalService
         $bodyData = json_decode($response->getBody()->getContents());
         return $bodyData;
     }
+
 }

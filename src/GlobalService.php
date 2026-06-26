@@ -1045,4 +1045,64 @@ class GlobalService
         $bodyData = json_decode($response->getBody()->getContents());
         return $bodyData;
     }
+
+    public function getWholeAddresses(array $request)
+    {
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
+
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphqlQuery = 'query addresses(
+            $country_code: String!
+            $area1: String
+            $area2: String
+            $area3: String
+            $area4: String
+            $area5: String
+            $group: String
+            $orderBy: [OrderByClause!]
+        ) {
+            addresses(
+                country_code: $country_code
+                area1: $area1
+                area2: $area2
+                area3: $area3
+                area4: $area4
+                area5: $area5
+                group: $group
+                orderBy: $orderBy
+            ) {
+                id
+                country_code
+                country
+                area1
+                area2
+                area3
+                area4
+                area5
+                group
+                latitude
+                longitude
+            }
+        }';
+
+        $graphQLBody = [
+            "query" => $graphqlQuery,
+            "variables" => $request,
+            "operationName" => "addresses"
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($graphQLBody)
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
+    }
 }

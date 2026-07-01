@@ -1103,5 +1103,39 @@ class GlobalService
         $bodyData = json_decode($response->getBody()->getContents());
         return $bodyData;
     }
+    public function uploadDepositOrWithdrawLast(array $input)
+    {
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphQLBody = [
+            'query' => 'mutation UploadDepositeOrWithdrawLast($input: UploadDepositeOrWithdrawLastInputs) {
+                UploadDepositeOrWithdrawLast(input: $input) {
+                    message
+                }
+            }',
+            'operationName' => 'UploadDepositeOrWithdrawLast',
+            'variables' => ['input' => $input],
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
+            ],
+            'body' => json_encode($graphQLBody),
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+
+        if (isset($bodyData->errors)) {
+            $message = $bodyData->errors[0]->message ?? 'upload_deposit_or_withdraw_failed';
+            throw new \Exception(is_array($message) ? $message[0] : $message);
+        }
+
+        return $bodyData->data->UploadDepositeOrWithdrawLast ?? null;
+    }
 }

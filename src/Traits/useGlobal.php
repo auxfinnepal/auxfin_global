@@ -82,6 +82,8 @@ trait useGlobal
     {
         return $this->globalService->getAllAddresses($request);
     }
-
-  
+    public function uploadDepositOrWithdrawLast(array $input)
+    {
+        return $this->globalService->uploadDepositOrWithdrawLast($input);
+    }
 }

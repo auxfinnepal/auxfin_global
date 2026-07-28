@@ -1046,6 +1046,135 @@ class GlobalService
         return $bodyData;
     }
 
+    public function getHierarchy(string $userId)
+    {
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
+
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphqlQuery = 'query getUserHierarchyReport($userId: ID!) {
+            getUserHierarchyReport(user_id: $userId) {
+                parent_id
+                role
+                umva_id
+                user {
+                    sup_id
+                    sup_name
+                    user_info {
+                        address_country
+                    }
+                }
+                child {
+                    user_id
+                    role_id
+                    parent_id
+                    role {
+                        name
+                    }
+                    user {
+                        sup_id
+                        sup_name
+                        user_info {
+                            address_country
+                            address_state
+                        }
+                    }
+                    child {
+                        role_id
+                        parent_id
+                        user_id
+                        role {
+                            name
+                        }
+                        user {
+                            sup_id
+                            sup_name
+                            user_info {
+                                address_country
+                                address_state
+                                address_zone
+                            }
+                        }
+                        child {
+                            role_id
+                            user_id
+                            parent_id
+                            role {
+                                name
+                            }
+                            user {
+                                sup_id
+                                sup_name
+                                user_info {
+                                    address_country
+                                    address_state
+                                    address_zone
+                                    address_zone1
+                                }
+                            }
+                            child {
+                                role_id
+                                user_id
+                                parent_id
+                                role {
+                                    name
+                                }
+                                user {
+                                    sup_id
+                                    sup_name
+                                    user_info {
+                                        address_country
+                                        address_state
+                                        address_zone
+                                        address_zone1
+                                        address_city
+                                        address_locality
+                                        user_group
+                                    }
+                                }
+                                child {
+                                    role_id
+                                    user_id
+                                    parent_id
+                                    role {
+                                        name
+                                    }
+                                    user {
+                                        sup_id
+                                        sup_name
+                                        user_info {
+                                            address_zone1
+                                            address_city
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }';
+
+        $graphQLBody = [
+            "query" => $graphqlQuery,
+            "variables" => ["userId" => $userId],
+            "operationName" => "getUserHierarchyReport"
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($graphQLBody)
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
+    }
+
     public function getAllAddresses(array $request)
     {
         $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
@@ -1138,4 +1267,5 @@ class GlobalService
 
         return $bodyData->data->UploadDepositeOrWithdrawLast ?? null;
     }
+   
 }

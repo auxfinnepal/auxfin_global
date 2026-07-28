@@ -78,6 +78,11 @@ trait useGlobal
         return $this->globalService->getAddress($request);
     }
 
+    public function getAgentHierarchy(string $userId)
+    {
+        return $this->globalService->getHierarchy($userId);
+    }
+
     public function getAllAddresses(array $request)
     {
         return $this->globalService->getAllAddresses($request);

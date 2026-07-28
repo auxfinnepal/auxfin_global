@@ -1144,10 +1144,26 @@ class GlobalService
                                     user {
                                         sup_id
                                         sup_name
-                                        user_info {
-                                            address_zone1
-                                            address_city
-                                        }
+                                       user_info {
+								address_country
+								address_state
+								address_zone
+								address_zone1
+								address_city
+								address_locality
+								user_group
+								addresses {
+									address_id
+
+									userGenderCount {
+										male_count
+										female_count
+									}
+									members {
+										sup_name
+									}
+								}
+							}
                                     }
                                 }
                             }
@@ -1267,5 +1283,4 @@ class GlobalService
 
         return $bodyData->data->UploadDepositeOrWithdrawLast ?? null;
     }
-   
 }

@@ -1064,6 +1064,22 @@ class GlobalService
                     sup_name
                     user_info {
                         address_country
+                        address_state
+                        address_zone
+                        address_zone1
+                        address_city
+                        address_locality
+                        user_group
+                        addresses {
+                            address_id
+                            userGenderCount {
+                                male_count
+                                female_count
+                            }
+                            members {
+                                sup_name
+                            }
+                        }
                     }
                 }
                 child {
@@ -1071,6 +1087,7 @@ class GlobalService
                     role_id
                     parent_id
                     role {
+                        id
                         name
                     }
                     user {
@@ -1079,6 +1096,21 @@ class GlobalService
                         user_info {
                             address_country
                             address_state
+                            address_zone
+                            address_zone1
+                            address_city
+                            address_locality
+                            user_group
+                            addresses {
+                                address_id
+                                userGenderCount {
+                                    male_count
+                                    female_count
+                                }
+                                members {
+                                    sup_name
+                                }
+                            }
                         }
                     }
                     child {
@@ -1086,6 +1118,7 @@ class GlobalService
                         parent_id
                         user_id
                         role {
+                            id
                             name
                         }
                         user {
@@ -1095,6 +1128,20 @@ class GlobalService
                                 address_country
                                 address_state
                                 address_zone
+                                address_zone1
+                                address_city
+                                address_locality
+                                user_group
+                                addresses {
+                                    address_id
+                                    userGenderCount {
+                                        male_count
+                                        female_count
+                                    }
+                                    members {
+                                        sup_name
+                                    }
+                                }
                             }
                         }
                         child {
@@ -1102,6 +1149,7 @@ class GlobalService
                             user_id
                             parent_id
                             role {
+                                id
                                 name
                             }
                             user {
@@ -1112,6 +1160,19 @@ class GlobalService
                                     address_state
                                     address_zone
                                     address_zone1
+                                    address_city
+                                    address_locality
+                                    user_group
+                                    addresses {
+                                        address_id
+                                        userGenderCount {
+                                            male_count
+                                            female_count
+                                        }
+                                        members {
+                                            sup_name
+                                        }
+                                    }
                                 }
                             }
                             child {
@@ -1119,6 +1180,7 @@ class GlobalService
                                 user_id
                                 parent_id
                                 role {
+                                    id
                                     name
                                 }
                                 user {
@@ -1132,6 +1194,16 @@ class GlobalService
                                         address_city
                                         address_locality
                                         user_group
+                                        addresses {
+                                            address_id
+                                            userGenderCount {
+                                                male_count
+                                                female_count
+                                            }
+                                            members {
+                                                sup_name
+                                            }
+                                        }
                                     }
                                 }
                                 child {
@@ -1139,31 +1211,31 @@ class GlobalService
                                     user_id
                                     parent_id
                                     role {
+                                        id
                                         name
                                     }
                                     user {
                                         sup_id
                                         sup_name
-                                       user_info {
-								address_country
-								address_state
-								address_zone
-								address_zone1
-								address_city
-								address_locality
-								user_group
-								addresses {
-									address_id
-
-									userGenderCount {
-										male_count
-										female_count
-									}
-									members {
-										sup_name
-									}
-								}
-							}
+                                        user_info {
+                                            address_country
+                                            address_state
+                                            address_zone
+                                            address_zone1
+                                            address_city
+                                            address_locality
+                                            user_group
+                                            addresses {
+                                                address_id
+                                                userGenderCount {
+                                                    male_count
+                                                    female_count
+                                                }
+                                                members {
+                                                    sup_name
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

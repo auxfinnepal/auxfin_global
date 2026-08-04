@@ -1076,9 +1076,7 @@ class GlobalService
                                 male_count
                                 female_count
                             }
-                            members {
-                                sup_name
-                            }
+                            
                         }
                     }
                 }
@@ -1107,9 +1105,7 @@ class GlobalService
                                     male_count
                                     female_count
                                 }
-                                members {
-                                    sup_name
-                                }
+                              
                             }
                         }
                     }
@@ -1138,9 +1134,7 @@ class GlobalService
                                         male_count
                                         female_count
                                     }
-                                    members {
-                                        sup_name
-                                    }
+                                    
                                 }
                             }
                         }
@@ -1169,9 +1163,7 @@ class GlobalService
                                             male_count
                                             female_count
                                         }
-                                        members {
-                                            sup_name
-                                        }
+                                      
                                     }
                                 }
                             }
@@ -1200,9 +1192,7 @@ class GlobalService
                                                 male_count
                                                 female_count
                                             }
-                                            members {
-                                                sup_name
-                                            }
+                                            
                                         }
                                     }
                                 }
@@ -1231,9 +1221,7 @@ class GlobalService
                                                     male_count
                                                     female_count
                                                 }
-                                                members {
-                                                    sup_name
-                                                }
+                                               
                                             }
                                         }
                                     }

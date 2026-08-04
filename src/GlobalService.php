@@ -1072,12 +1072,13 @@ class GlobalService
                         user_group
                         addresses {
                             address_id
-                                                                      members{sup_id}
-
-                            
+                            members {
+                                sup_id
+                            }
                         }
                     }
                 }
+                child_count
                 child {
                     user_id
                     role_id
@@ -1099,12 +1100,13 @@ class GlobalService
                             user_group
                             addresses {
                                 address_id
-                                                                          members{sup_id}
-
-                              
+                                members {
+                                    sup_id
+                                }
                             }
                         }
                     }
+                    child_count
                     child {
                         role_id
                         parent_id
@@ -1126,12 +1128,13 @@ class GlobalService
                                 user_group
                                 addresses {
                                     address_id
-                                                                             members{sup_id}
-
-                                    
+                                    members {
+                                        sup_id
+                                    }
                                 }
                             }
                         }
+                        child_count
                         child {
                             role_id
                             user_id
@@ -1153,12 +1156,13 @@ class GlobalService
                                     user_group
                                     addresses {
                                         address_id
-                                                                                   members{sup_id}
-
-                                      
+                                        members {
+                                            sup_id
+                                        }
                                     }
                                 }
                             }
+                            child_count
                             child {
                                 role_id
                                 user_id
@@ -1180,11 +1184,13 @@ class GlobalService
                                         user_group
                                         addresses {
                                             address_id
-                                           members{sup_id}
-                                            
+                                            members {
+                                                sup_id
+                                            }
                                         }
                                     }
                                 }
+                                child_count
                                 child {
                                     role_id
                                     user_id
@@ -1206,9 +1212,9 @@ class GlobalService
                                             user_group
                                             addresses {
                                                 address_id
-                                                                                          members{sup_id}
-
-                                               
+                                                members {
+                                                    sup_id
+                                                }
                                             }
                                         }
                                     }
@@ -1234,8 +1240,14 @@ class GlobalService
             'body' => json_encode($graphQLBody)
         ]);
 
-        $bodyData = json_decode($response->getBody()->getContents());
-        return $bodyData;
+        $bodyData = json_decode($response->getBody()->getContents(), false);
+
+        if (isset($bodyData->errors)) {
+            $message = $bodyData->errors[0]->message ?? 'getUserHierarchyReport_failed';
+            throw new \Exception(is_array($message) ? $message[0] : $message);
+        }
+
+        return $bodyData->data->getUserHierarchyReport ?? null;
     }
 
     public function getAllAddresses(array $request)

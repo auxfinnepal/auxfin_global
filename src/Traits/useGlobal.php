@@ -91,7 +91,7 @@ trait useGlobal
     {
         return $this->globalService->uploadDepositOrWithdrawLast($input);
     }
-    public function getAgentHierarchyLevel(array $request)
+    public function getAgentHierarchyLevel(array|string $request)
     {
         return $this->globalService->getAgentHierarchyLevel($request);
     }

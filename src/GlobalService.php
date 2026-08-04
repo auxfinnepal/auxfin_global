@@ -1343,7 +1343,7 @@ class GlobalService
 
         return $bodyData->data->UploadDepositeOrWithdrawLast ?? null;
     }
-    public function getAgentHierarchyLevel(array|string $request)
+     public function getAgentHierarchyLevel(array|string $request)
     {
         $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
@@ -1358,21 +1358,20 @@ class GlobalService
             ];
 
         $graphQLBody = [
-            "query" => 'query getAgentHierarchyLevel($byCountry: String) {
-		getAgentHierarchyLevel(byCountry: $byCountry) {
-			country_code
-			country
-			level1
-			level2
-			level3
-			level4
-			level5
-			level6
-		}
-	}
+            'query' => 'query getAgentHierarchyLevel($byCountry: String) {
+                getAgentHierarchyLevel(byCountry: $byCountry) {
+                    country_code
+                    country
+                    level1
+                    level2
+                    level3
+                    level4
+                    level5
+                    level6
+                }
             }',
-            "operationName" => "getAgentHierarchyLevel",
-            "variables" => $variables
+            'operationName' => 'getAgentHierarchyLevel',
+            'variables' => $variables,
         ];
 
         $response = $this->client->request('POST', $this->apiUrl . '/graphql', [

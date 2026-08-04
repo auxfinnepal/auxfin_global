@@ -1343,4 +1343,41 @@ class GlobalService
 
         return $bodyData->data->UploadDepositeOrWithdrawLast ?? null;
     }
+    public function getAgentHierarchyLevel(array $request)
+    {
+        $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
+
+        if (!$token) {
+            $token = $this->getToken();
+        }
+
+        $graphQLBody = [
+            "query" => 'query getAgentHierarchyLevel($byCountry: String) {
+		getAgentHierarchyLevel(byCountry: $byCountry) {
+			country_code
+			country
+			level1
+			level2
+			level3
+			level4
+			level5
+			level6
+		}
+	}
+            }',
+            "operationName" => "getAgentHierarchyLevel",
+            "variables" => $request
+        ];
+
+        $response = $this->client->request('POST', $this->apiUrl . '/graphql', [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token
+            ],
+            'body' => json_encode($graphQLBody)
+        ]);
+
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
+    }
 }

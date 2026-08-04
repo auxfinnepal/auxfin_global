@@ -1078,7 +1078,7 @@ class GlobalService
                         }
                     }
                 }
-                child_count
+                
                 child {
                     user_id
                     role_id
@@ -1087,6 +1087,7 @@ class GlobalService
                         id
                         name
                     }
+                        child_count
                     user {
                         sup_id
                         sup_name
@@ -1106,7 +1107,7 @@ class GlobalService
                             }
                         }
                     }
-                    child_count
+                    
                     child {
                         role_id
                         parent_id
@@ -1115,6 +1116,7 @@ class GlobalService
                             id
                             name
                         }
+                            child_count
                         user {
                             sup_id
                             sup_name
@@ -1134,7 +1136,7 @@ class GlobalService
                                 }
                             }
                         }
-                        child_count
+                        
                         child {
                             role_id
                             user_id
@@ -1143,6 +1145,7 @@ class GlobalService
                                 id
                                 name
                             }
+                                child_count
                             user {
                                 sup_id
                                 sup_name
@@ -1162,7 +1165,7 @@ class GlobalService
                                     }
                                 }
                             }
-                            child_count
+                            
                             child {
                                 role_id
                                 user_id
@@ -1171,6 +1174,7 @@ class GlobalService
                                     id
                                     name
                                 }
+                                    child_count
                                 user {
                                     sup_id
                                     sup_name
@@ -1190,7 +1194,7 @@ class GlobalService
                                         }
                                     }
                                 }
-                                child_count
+                                
                                 child {
                                     role_id
                                     user_id
@@ -1199,6 +1203,7 @@ class GlobalService
                                         id
                                         name
                                     }
+                                        child_count
                                     user {
                                         sup_id
                                         sup_name

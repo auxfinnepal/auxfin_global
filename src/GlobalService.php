@@ -1072,10 +1072,8 @@ class GlobalService
                         user_group
                         addresses {
                             address_id
-                            userGenderCount {
-                                male_count
-                                female_count
-                            }
+                                                                      members{sup_id}
+
                             
                         }
                     }
@@ -1101,10 +1099,8 @@ class GlobalService
                             user_group
                             addresses {
                                 address_id
-                                userGenderCount {
-                                    male_count
-                                    female_count
-                                }
+                                                                          members{sup_id}
+
                               
                             }
                         }
@@ -1130,10 +1126,8 @@ class GlobalService
                                 user_group
                                 addresses {
                                     address_id
-                                    userGenderCount {
-                                        male_count
-                                        female_count
-                                    }
+                                                                             members{sup_id}
+
                                     
                                 }
                             }
@@ -1159,10 +1153,8 @@ class GlobalService
                                     user_group
                                     addresses {
                                         address_id
-                                        userGenderCount {
-                                            male_count
-                                            female_count
-                                        }
+                                                                                   members{sup_id}
+
                                       
                                     }
                                 }
@@ -1188,10 +1180,7 @@ class GlobalService
                                         user_group
                                         addresses {
                                             address_id
-                                            userGenderCount {
-                                                male_count
-                                                female_count
-                                            }
+                                           members{sup_id}
                                             
                                         }
                                     }
@@ -1217,10 +1206,8 @@ class GlobalService
                                             user_group
                                             addresses {
                                                 address_id
-                                                userGenderCount {
-                                                    male_count
-                                                    female_count
-                                                }
+                                                                                          members{sup_id}
+
                                                
                                             }
                                         }

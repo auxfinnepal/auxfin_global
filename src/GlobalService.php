@@ -1072,13 +1072,12 @@ class GlobalService
                         user_group
                         addresses {
                             address_id
-                            members {
-                                sup_id
-                            }
+                                                                      members{sup_id}
+
+                            
                         }
                     }
                 }
-                
                 child {
                     user_id
                     role_id
@@ -1087,7 +1086,6 @@ class GlobalService
                         id
                         name
                     }
-                        child_count
                     user {
                         sup_id
                         sup_name
@@ -1101,13 +1099,12 @@ class GlobalService
                             user_group
                             addresses {
                                 address_id
-                                members {
-                                    sup_id
-                                }
+                                                                          members{sup_id}
+
+                              
                             }
                         }
                     }
-                    
                     child {
                         role_id
                         parent_id
@@ -1116,7 +1113,6 @@ class GlobalService
                             id
                             name
                         }
-                            child_count
                         user {
                             sup_id
                             sup_name
@@ -1130,13 +1126,12 @@ class GlobalService
                                 user_group
                                 addresses {
                                     address_id
-                                    members {
-                                        sup_id
-                                    }
+                                                                             members{sup_id}
+
+                                    
                                 }
                             }
                         }
-                        
                         child {
                             role_id
                             user_id
@@ -1145,7 +1140,6 @@ class GlobalService
                                 id
                                 name
                             }
-                                child_count
                             user {
                                 sup_id
                                 sup_name
@@ -1159,13 +1153,12 @@ class GlobalService
                                     user_group
                                     addresses {
                                         address_id
-                                        members {
-                                            sup_id
-                                        }
+                                                                                   members{sup_id}
+
+                                      
                                     }
                                 }
                             }
-                            
                             child {
                                 role_id
                                 user_id
@@ -1174,7 +1167,6 @@ class GlobalService
                                     id
                                     name
                                 }
-                                    child_count
                                 user {
                                     sup_id
                                     sup_name
@@ -1188,13 +1180,11 @@ class GlobalService
                                         user_group
                                         addresses {
                                             address_id
-                                            members {
-                                                sup_id
-                                            }
+                                           members{sup_id}
+                                            
                                         }
                                     }
                                 }
-                                
                                 child {
                                     role_id
                                     user_id
@@ -1203,7 +1193,6 @@ class GlobalService
                                         id
                                         name
                                     }
-                                        child_count
                                     user {
                                         sup_id
                                         sup_name
@@ -1217,9 +1206,9 @@ class GlobalService
                                             user_group
                                             addresses {
                                                 address_id
-                                                members {
-                                                    sup_id
-                                                }
+                                                                                          members{sup_id}
+
+                                               
                                             }
                                         }
                                     }
@@ -1245,14 +1234,8 @@ class GlobalService
             'body' => json_encode($graphQLBody)
         ]);
 
-        $bodyData = json_decode($response->getBody()->getContents(), false);
-
-        if (isset($bodyData->errors)) {
-            $message = $bodyData->errors[0]->message ?? 'getUserHierarchyReport_failed';
-            throw new \Exception(is_array($message) ? $message[0] : $message);
-        }
-
-        return $bodyData->data->getUserHierarchyReport ?? null;
+        $bodyData = json_decode($response->getBody()->getContents());
+        return $bodyData;
     }
 
     public function getAllAddresses(array $request)

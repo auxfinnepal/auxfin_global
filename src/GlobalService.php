@@ -28,6 +28,7 @@ class GlobalService
                     }
                 ) {
                     access_token
+                        hierarchy_level
                     expires_in
                     refresh_token
                     token_type
@@ -1340,7 +1341,7 @@ class GlobalService
 
         return $bodyData->data->UploadDepositeOrWithdrawLast ?? null;
     }
-     public function getAgentHierarchyLevel(array|string $request)
+    public function getAgentHierarchyLevel(array|string $request)
     {
         $token = SsoToken::where('product_name', 'Global')->first()->access_token ?? null;
 
